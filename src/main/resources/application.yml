@@ -1,0 +1,56 @@
+server:
+  port: 8000
+
+spring:
+  application:
+    name: product-service
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/product_service_db
+    username: postgres
+    password: postgres
+  jpa:
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate.order_by.default_null_ordering: last
+      hibernate:
+        format_sql: true
+    show-sql: true
+  web:
+    locale: ru_RU
+    locale-resolver: ACCEPT_HEADER
+  jackson:
+    deserialization:
+      ACCEPT_EMPTY_STRING_AS_NULL_OBJECT: true
+
+  flyway:
+    enabled: true
+    clean-disabled: true
+    out-of-order: true
+    baseline-on-migrate: true
+    validate-on-migrate: false
+
+logging:
+  level:
+    org:
+      springframework:
+        web:
+          filter:
+            CommonsRequestLoggingFilter: DEBUG
+
+app-config:
+  cms:
+    url: ${CMS_URL:http://localhost:8080/v1/graphql}
+    access-token: ${CMS_SECRET_KEY:mysecret}
+    env: ${CMS_ENV:DEV}
+
+dubbo:
+  application:
+    name: app-service
+    qos-enable: false
+    serialize-check-status: DISABLE
+  registry:
+    address: ${DUBBO_REGISTRY_ADDRESS:zookeeper://127.0.0.1:2181}
+  consumer:
+    check: false
