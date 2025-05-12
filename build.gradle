@@ -17,7 +17,7 @@ java {
 // Configuration settings for the Java code generation task based on GraphQL schema
 generateJava {
     schemaPaths = ["${projectDir}/src/main/resources/schema"] // List of directories containing schema files
-    packageName = 'team.alabs.nisp.appservice' // The package name to use to generate sources
+    packageName = 'kz.anilenses.productservice' // The package name to use to generate sources
     generateClient = false              // Enable generating the type safe query API
     typeMapping = [
             "BigDecimal" : "java.math.BigDecimal"
@@ -72,7 +72,7 @@ dependencies {
     implementation 'kz.anilenses:web-commons:1.0.0-SNAPSHOT'
 
     compileOnly 'org.projectlombok:lombok'
-    implementation 'org.flywaydb:flyway-core'
+    implementation 'org.flywaydb:flyway-core:9.22.1'
     runtimeOnly 'org.postgresql:postgresql'
     annotationProcessor 'org.projectlombok:lombok'
 

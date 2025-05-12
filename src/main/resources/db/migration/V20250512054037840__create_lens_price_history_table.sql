@@ -4,8 +4,10 @@ create table if not exists lens_price_history(
     created_by bigint not null default -10,
     updated_at timestamp with time zone,
     updated_by bigint,
-    price decimal not null,
-    lens_id bigint not null
+    price decimal(100, 2) not null,
+    lens_id bigint not null,
+    deleted_at timestamp with time zone,
+    is_deleted boolean default false
 );
 
 comment on table lens_price_history is 'История изменений цены линз';
@@ -16,3 +18,5 @@ comment on column lens_price_history.updated_at is 'Дата последнег�
 comment on column lens_price_history.updated_by is 'Автор последнего редактирования цены линз';
 comment on column lens_price_history.price is 'Цена линз';
 comment on column lens_price_history.lens_id is 'Ссылка на линзу';
+comment on column lens_price_history.is_deleted is 'Удалена?';
+comment on column lens_price_history.deleted_at is 'Дата удаления';

@@ -13,6 +13,8 @@ create table if not exists lenses(
     max_optical_power numeric(4, 2) not null,
     diameter numeric(4, 2) not null,
     curvature_radius numeric(4, 2) not null,
+    total_quantity bigint not null,
+    sales_quantity bigint not null default 0,
     is_available boolean default true,
     deleted_at timestamp with time zone,
     is_deleted boolean default false
@@ -32,6 +34,8 @@ comment on column lenses.min_optical_power is 'Мин. оптическая си
 comment on column lenses.max_optical_power is 'Макс. оптическая сила';
 comment on column lenses.diameter is 'Диаметр';
 comment on column lenses.curvature_radius is 'Радиус кривизны';
+comment on column lenses.total_quantity is 'Общее количество';
+comment on column lenses.sales_quantity is 'Проданное количество';
 comment on column lenses.is_available is 'Доступна?';
 comment on column lenses.is_deleted is 'Удалена?';
 comment on column lenses.deleted_at is 'Дата удаления';

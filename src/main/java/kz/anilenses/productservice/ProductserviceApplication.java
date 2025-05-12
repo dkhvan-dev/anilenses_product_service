@@ -3,7 +3,7 @@ package kz.anilenses.productservice;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "kz.anilenses")
 public class ProductserviceApplication {
 
     public static void main(String[] args) {

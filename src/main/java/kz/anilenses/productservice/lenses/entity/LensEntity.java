@@ -35,13 +35,37 @@ public class LensEntity extends AuditEntity {
     @Comment("Описание линз")
     private String description;
 
-    @Column(name = "color")
+    @Column(name = "color", nullable = false)
     @Comment("Цвет линз")
     private String color;
 
-    @Column(name = "min_optical_power")
+    @Column(name = "min_optical_power", nullable = false)
     @Comment("Мин. оптическая сила линз")
     private BigDecimal minOpticalPower;
+
+    @Column(name = "max_optical_power", nullable = false)
+    @Comment("Макс. оптическая сила линз")
+    private BigDecimal maxOpticalPower;
+
+    @Column(name = "diameter", nullable = false)
+    @Comment("Диаметр")
+    private BigDecimal diameter;
+
+    @Column(name = "curvature_radius", nullable = false)
+    @Comment("Радиус кривизны")
+    private BigDecimal curvatureRadius;
+
+    @Column(name = "total_quantity", nullable = false)
+    @Comment("Общее количество")
+    private Long totalQuantity;
+
+    @Column(name = "sales_quantity", nullable = false)
+    @Comment("Проданное количество")
+    private Long salesQuantity = 0L;
+
+    @Column(name = "is_available", nullable = false)
+    @Comment("Доступны?")
+    private Boolean isAvailable = Boolean.TRUE;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "actual_price_id", nullable = false, referencedColumnName = "id")

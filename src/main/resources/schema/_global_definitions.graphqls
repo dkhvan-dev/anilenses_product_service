@@ -1,0 +1,62 @@
+# ====================================================
+# =                      SCALARS                     =
+# ====================================================
+scalar DateTime
+scalar Long
+scalar BigDecimal
+scalar Date
+
+# ====================================================
+# =             DIRECTIVES                           =
+# ====================================================
+
+directive @NotBlank(message : String = "graphql.validation.NotBlank.message") on ARGUMENT_DEFINITION | INPUT_FIELD_DEFINITION
+directive @Size(min : Int = 1, max : Int = 1, message : String = "graphql.validation.Size.message") on ARGUMENT_DEFINITION | INPUT_FIELD_DEFINITION
+
+# ====================================================
+# =             BASE QUERY AND MUTATION              =
+# ====================================================
+
+type Query {
+}
+
+# ====================================================
+# =                 INTERFACES                       =
+# ====================================================
+
+interface ProductInterface {
+    "Идентификатор"
+    id: Int!
+}
+
+# ====================================================
+# =                 GENERAL INPUTS                   =
+# ====================================================
+
+input PageableInput {
+    "Номер страницы"
+    page: Int! = 0
+
+    "Размер выборки"
+    size: Int! = 20
+
+    "Сортировка выборки"
+    sort: [SortInput!]
+}
+
+input SortInput {
+    "Поле для сортировки"
+    field: String!
+
+    "Направление сортировки"
+    direction: SortDirection!
+}
+
+# ====================================================
+# =                 GENERAL ENUMS                    =
+# ====================================================
+
+enum SortDirection {
+    ASC
+    DESC
+}
