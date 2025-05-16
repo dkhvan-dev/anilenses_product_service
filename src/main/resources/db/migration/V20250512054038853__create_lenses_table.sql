@@ -11,6 +11,7 @@ create table if not exists lenses(
     color varchar(255) not null,
     min_optical_power numeric(4, 2) not null,
     max_optical_power numeric(4, 2) not null,
+    optical_power_step numeric(4, 2) not null,
     diameter numeric(4, 2) not null,
     curvature_radius numeric(4, 2) not null,
     total_quantity bigint not null,
@@ -32,6 +33,7 @@ comment on column lenses.actual_price_id is 'Ссылка на актуальн�
 comment on column lenses.color is 'Цвет';
 comment on column lenses.min_optical_power is 'Мин. оптическая сила';
 comment on column lenses.max_optical_power is 'Макс. оптическая сила';
+comment on column lenses.optical_power_step is 'Шаг оптической силы';
 comment on column lenses.diameter is 'Диаметр';
 comment on column lenses.curvature_radius is 'Радиус кривизны';
 comment on column lenses.total_quantity is 'Общее количество';
