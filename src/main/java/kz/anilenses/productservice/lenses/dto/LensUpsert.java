@@ -51,6 +51,12 @@ public class LensUpsert extends ProductUpsert {
     private BigDecimal maxOpticalPower;
 
     @Digits(integer = 2, fraction = 2)
+    @PositiveOrZero
+    @NotNull
+    @Schema(description = "Шаг оптической силы")
+    private BigDecimal opticalPowerStep;
+
+    @Digits(integer = 2, fraction = 2)
     @NotNull
     @Schema(description = "Диаметр")
     private BigDecimal diameter;

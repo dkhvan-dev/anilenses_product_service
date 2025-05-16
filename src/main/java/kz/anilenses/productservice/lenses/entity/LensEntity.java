@@ -8,6 +8,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import java.math.BigDecimal;
+import kz.anilenses.productservice.annotations.GraphQlFieldAlias;
 import kz.anilenses.webcommons.data.AuditEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -47,6 +48,10 @@ public class LensEntity extends AuditEntity {
     @Comment("Макс. оптическая сила линз")
     private BigDecimal maxOpticalPower;
 
+    @Column(name = "optical_power_step", nullable = false)
+    @Comment("Шаг оптической силы")
+    private BigDecimal opticalPowerStep;
+
     @Column(name = "diameter", nullable = false)
     @Comment("Диаметр")
     private BigDecimal diameter;
@@ -67,6 +72,7 @@ public class LensEntity extends AuditEntity {
     @Comment("Доступны?")
     private Boolean isAvailable = Boolean.TRUE;
 
+    @GraphQlFieldAlias(value = "actualPrice", isParent = true)
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "actual_price_id", nullable = false, referencedColumnName = "id")
     private LensPriceHistoryEntity actualPrice;

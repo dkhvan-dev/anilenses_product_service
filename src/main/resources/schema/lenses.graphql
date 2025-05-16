@@ -1,0 +1,43 @@
+# ====================================================
+# =                    TYPES                         =
+# ====================================================
+type Lens implements ProductInterface {
+    "Идентификатор"
+    id: Int!
+
+    "Модель линз"
+    model: String!
+
+    "Бренд линз"
+    brand: String!
+
+    "Описание линз"
+    description: String!
+
+    "Цвет линз"
+    color: String!
+
+    "Мин. оптическая сила линз"
+    minOpticalPower: BigDecimal!
+
+    "Макс. оптическая сила линз"
+    maxOpticalPower: BigDecimal!
+
+    "Шаг оптической силы"
+    opticalPowerStep: BigDecimal!
+
+    "Диаметр"
+    diameter: BigDecimal!
+
+    "Радиус кривизны"
+    curvatureRadius: BigDecimal!
+
+    "Общее количество"
+    totalQuantity: Long!
+
+    "Проданное количество"
+    salesQuantity: Long!
+
+    "Доступны?"
+    isAvailable: Boolean!
+}

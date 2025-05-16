@@ -1,11 +1,11 @@
 package kz.anilenses.productservice.lenses.service;
 
+import com.blazebit.persistence.CriteriaBuilderFactory;
+import com.blazebit.persistence.view.EntityViewManager;
+import com.blazebit.persistence.view.EntityViewSetting;
 import graphql.schema.SelectedField;
-import java.math.BigDecimal;
+import jakarta.persistence.EntityManager;
 import java.util.List;
-import kz.anilenses.productservice.types.PageableInput;
-import kz.anilenses.productservice.types.ProductCategoryEnum;
-import kz.anilenses.productservice.types.ProductInterface;
 import kz.anilenses.exceptionhandler.rest.exception.BadRequestException;
 import kz.anilenses.productservice.lenses.dto.LensUpsert;
 import kz.anilenses.productservice.lenses.entity.LensEntity;
@@ -13,10 +13,16 @@ import kz.anilenses.productservice.lenses.entity.LensEntity_;
 import kz.anilenses.productservice.lenses.entity.LensPriceHistoryEntity;
 import kz.anilenses.productservice.lenses.mapper.LensMapper;
 import kz.anilenses.productservice.lenses.repository.LensRepository;
+import kz.anilenses.productservice.lenses.view.LensView;
 import kz.anilenses.productservice.service.ProductService;
+import kz.anilenses.productservice.types.ProductCategoryEnum;
+import kz.anilenses.productservice.types.ProductInterface;
+import kz.anilenses.productservice.utils.ViewHelper;
 import kz.anilenses.webcommons.data.AuditEntity_;
+import kz.anilenses.webcommons.data.PageableInput;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,6 +36,9 @@ import static kz.anilenses.webcommons.data.CommonSpecification.attributeNotEqual
 public class LensServiceImpl implements ProductService<LensUpsert, ProductInterface> {
 
     private final LensRepository repository;
+    private final EntityManager entityManager;
+    private final EntityViewManager entityViewManager;
+    private final CriteriaBuilderFactory criteriaBuilderFactory;
 
     @Transactional
     @Override
@@ -77,9 +86,29 @@ public class LensServiceImpl implements ProductService<LensUpsert, ProductInterf
             .orElseThrow(() -> new IllegalArgumentException("Lens not found by ID: " + id));
     }
 
+    @Transactional(readOnly = true)
     @Override
-    public ProductInterface findAllPageable(PageableInput pageable, List<SelectedField> fields) {
-        return null;
+    public Page<ProductInterface> findAllPageable(PageableInput pageable, List<SelectedField> fields) {
+        var offset = pageable.getPage() * pageable.getSize();
+        var viewSetting = EntityViewSetting.create(LensView.class, offset, pageable.getSize().intValue());
+        ViewHelper.fetchFields(viewSetting, fields, LensEntity.class);
+
+        if (viewSetting.getFetches().isEmpty()) {
+            viewSetting.fetch(AuditEntity_.ID);
+        }
+
+        var criteriaBuilder = criteriaBuilderFactory.create(entityManager, LensEntity.class);
+        var criteria = entityViewManager.applySetting(viewSetting, criteriaBuilder);
+
+        var fetchTotalElements = fields.stream().anyMatch(field -> field.getName().equals("totalElements"));
+        if (!fetchTotalElements) {
+            criteria.withCountQuery(false);
+        }
+
+        ViewHelper.applySorting(criteria, pageable.getSort());
+
+        return ViewHelper.mapPageResult(pageable, criteria)
+            .map(LensMapper.INSTANCE::toResponse);
     }
 
     @Override

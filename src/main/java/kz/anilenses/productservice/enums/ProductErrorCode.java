@@ -9,7 +9,8 @@ import org.springframework.http.HttpStatus;
 @RequiredArgsConstructor
 public enum ProductErrorCode implements LocalizedErrorCode {
 
-    PRODUCT_CATEGORY_NOT_FOUND(HttpStatus.NOT_FOUND);
+    PRODUCT_CATEGORY_NOT_FOUND(HttpStatus.NOT_FOUND),
+    PRODUCT_NOT_FOUND(HttpStatus.NOT_FOUND);
 
     private final HttpStatus errorStatus;
 
