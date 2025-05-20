@@ -3,6 +3,7 @@
 # ====================================================
 extend type Query {
     products(category: ProductCategoryEnum!, pageable: PageableInput!): ProductPage!
+    product(id: Long!, category: ProductCategoryEnum!): ProductInterface!
 }
 
 # ====================================================

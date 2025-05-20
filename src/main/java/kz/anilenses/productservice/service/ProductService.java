@@ -12,6 +12,8 @@ public interface ProductService<T, V> {
 
     Page<V> findAllPageable(PageableInput pageable, List<SelectedField> fields);
 
+    V findById(Long id, List<SelectedField> fields);
+
     ProductCategoryEnum getCategory();
 
 }

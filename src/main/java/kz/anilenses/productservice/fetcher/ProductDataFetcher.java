@@ -27,4 +27,13 @@ public class ProductDataFetcher {
         return productServiceFactory.getService(category).findAllPageable(pageable, fields);
     }
 
+    @DgsQuery(field = QUERY.Product)
+    public ProductInterface getProductById(DgsDataFetchingEnvironment dfe,
+                                           @InputArgument Long id,
+                                           @InputArgument ProductCategoryEnum category) {
+        
+        var fields = dfe.getSelectionSet().getFields();
+        return productServiceFactory.getService(category).findById(id, fields);
+    }
+
 }

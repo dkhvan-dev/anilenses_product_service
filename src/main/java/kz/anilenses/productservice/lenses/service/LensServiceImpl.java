@@ -17,6 +17,7 @@ import kz.anilenses.productservice.lenses.view.LensView;
 import kz.anilenses.productservice.service.ProductService;
 import kz.anilenses.productservice.types.ProductCategoryEnum;
 import kz.anilenses.productservice.types.ProductInterface;
+import kz.anilenses.productservice.utils.ProductViewFetcher;
 import kz.anilenses.productservice.utils.ViewHelper;
 import kz.anilenses.webcommons.data.AuditEntity_;
 import kz.anilenses.webcommons.data.PageableInput;
@@ -39,6 +40,7 @@ public class LensServiceImpl implements ProductService<LensUpsert, ProductInterf
     private final EntityManager entityManager;
     private final EntityViewManager entityViewManager;
     private final CriteriaBuilderFactory criteriaBuilderFactory;
+    private final ProductViewFetcher viewFetcher;
 
     @Transactional
     @Override
@@ -109,6 +111,13 @@ public class LensServiceImpl implements ProductService<LensUpsert, ProductInterf
 
         return ViewHelper.mapPageResult(pageable, criteria)
             .map(LensMapper.INSTANCE::toResponse);
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public ProductInterface findById(Long id, List<SelectedField> fields) {
+        var fetchedData = viewFetcher.fetchData(LensView.class, id, fields);
+        return LensMapper.INSTANCE.toResponse(fetchedData);
     }
 
     @Override
