@@ -20,6 +20,7 @@ public interface LensView {
     BigDecimal getOpticalPowerStep();
     BigDecimal getDiameter();
     BigDecimal getCurvatureRadius();
+    LensPriceHistoryView getActualPrice();
     Long getTotalQuantity();
     Long getSalesQuantity();
     Boolean getIsAvailable();

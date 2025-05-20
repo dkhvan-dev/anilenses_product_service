@@ -32,6 +32,9 @@ type Lens implements ProductInterface {
     "Радиус кривизны"
     curvatureRadius: BigDecimal!
 
+    "Актуальная цена"
+    actualPrice: LensPriceHistory!
+
     "Общее количество"
     totalQuantity: Long!
 
